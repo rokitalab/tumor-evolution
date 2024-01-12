@@ -57,7 +57,7 @@ if (!dir.exists(results_dir)) {
 ```{r read-process-files}
 hist_df <- readr::read_tsv(hist_file, guess_max = 100000, show_col_types = FALSE) %>%
   mutate(cgGFAC = case_when(grepl("High-grade glioma", cancer_group) ~ "HGG", 
-                            grepl("Diffuse midline glioma", cancer_group) ~ "DMG",
+                            grepl("Diffuse midline glioma|Diffuse intrinsic pontine glioma", cancer_group) ~ "DIPG/DMG",
                             grepl("Atypical Teratoid Rhabdoid Tumor", cancer_group) ~ "ATRT",
                             grepl("Low-grade glioma", cancer_group) ~ "LGG",
                             TRUE ~ "Other")) 
@@ -221,7 +221,7 @@ samples_with_3bs <- print(unique(phylogenetic_data_df$Kids_First_Participant_ID)
 paired_assays_samples <- print(length(unique(phylogenetic_data_df$Kids_First_Participant_ID)))
 
 df_list <- phylogenetic_data_df %>% 
-  select(cohort_hope, molecular_subtype, cg_id, Kids_First_Participant_ID, tumor_descriptor, sample_id)
+  select(cohort_hope, molecular_subtype, cg_id, cg_multiple, Kids_First_Participant_ID, tumor_descriptor, sample_id)
 
 filter_df_list <- paired_assays_df %>% 
     select(Kids_First_Participant_ID, technology, seq_unit)
@@ -233,16 +233,16 @@ paired_assays_df_all <- df_list %>%
   unique()
 
 paired_assays_df_all %>%
-  count(cg_id, tumor_descriptor) %>%
+  count(cg_id, cg_multiple, tumor_descriptor) %>%
   pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
 
 paired_assays_df_all %>%
   #unique() %>% 
-  count(cohort_hope, cg_id, molecular_subtype, Kids_First_Participant_ID, tumor_descriptor) %>%
+  count(cohort_hope, cg_id, cg_multiple, molecular_subtype, Kids_First_Participant_ID, tumor_descriptor) %>%
   pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
-  select(cohort_hope, cg_id, molecular_subtype, 
+  select(cohort_hope, cg_id, cg_multiple, molecular_subtype, 
          Kids_First_Participant_ID, Diagnosis, Progressive, 
          Recurrence, Deceased) %>% 
   regulartable() %>%
@@ -320,7 +320,7 @@ In addition, there are samples with both technologies: `r samples_intersect`.
 ```{r cancer-group-df_10Xv3.1, echo=TRUE}
 df_10Xv3.1 %>%
   distinct(Kids_First_Participant_ID, .keep_all = TRUE) %>% 
-  count(cg_id) %>%
+  count(cg_id, cg_multiple) %>%
   arrange(desc(n)) %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
@@ -330,7 +330,7 @@ df_10Xv3.1 %>%
 
 ```{r cancer-group-timepoint-df_10Xv3.1, echo=TRUE}
 df_10Xv3.1 %>%
-  count(cg_id, tumor_descriptor) %>%
+  count(cg_id, cg_multiple, tumor_descriptor) %>%
   pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
@@ -340,7 +340,7 @@ df_10Xv3.1 %>%
 
 ```{r cg-multiple-kids-list-df_10Xv3.1, echo=TRUE}
 df_10Xv3.1 %>%
-  count(cohort_hope, cg_id, molecular_subtype, Kids_First_Participant_ID, tumor_descriptor) %>%
+  count(cohort_hope, cg_id, cg_multiple, molecular_subtype, Kids_First_Participant_ID, tumor_descriptor) %>%
   pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
   select(cohort_hope, cg_id, molecular_subtype, 
          Kids_First_Participant_ID, Diagnosis, Progressive, 
@@ -357,7 +357,7 @@ df_10Xv3.1 %>%
 df_10Xv2_5prime %>%
   distinct(Kids_First_Participant_ID, .keep_all = TRUE) %>% 
   unique() %>% 
-  count(cg_id) %>%
+  count(cg_id, cg_multiple) %>%
   arrange(desc(n)) %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
@@ -367,7 +367,7 @@ df_10Xv2_5prime %>%
 
 ```{r cancer-group-timepoint-df_10Xv2_5prime, echo=TRUE}
 df_10Xv2_5prime %>%
-  count(cg_id, tumor_descriptor) %>%
+  count(cg_id, cg_multiple, tumor_descriptor) %>%
   pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
@@ -377,7 +377,7 @@ df_10Xv2_5prime %>%
 
 ```{r cg-multiple-kids-list-df_10Xv2_5prime, echo=TRUE}
 df_10Xv2_5prime %>%
-  count(cohort_hope, cg_id, molecular_subtype, Kids_First_Participant_ID, tumor_descriptor) %>%
+  count(cohort_hope, cg_id, cg_multiple, molecular_subtype, Kids_First_Participant_ID, tumor_descriptor) %>%
   pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
@@ -395,21 +395,21 @@ dec_paired_assays <- paired_assays %>%
 dec_paired_assays_samples <- print(length(unique(dec_paired_assays$Kids_First_Participant_ID)))
 
 df_list <- df %>% 
-  select(cohort_hope, molecular_subtype, cg_id, Kids_First_Participant_ID, tumor_descriptor, sample_id)
+  select(cohort_hope, molecular_subtype, cg_id, cg_multiple, Kids_First_Participant_ID, tumor_descriptor, sample_id)
 
 dec_paired_assays_df <- df_list %>% 
   right_join(dec_paired_assays) %>% 
   unique()
 
 dec_paired_assays_df %>%
-  count(cg_id, tumor_descriptor) %>%
+  count(cg_id, cg_multiple, tumor_descriptor) %>%
   pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
   regulartable() %>%
   fontsize(size = 12, part = "all")
 
 dec_paired_assays_df %>%
   #unique() %>% 
-  count(cohort_hope, cg_id, molecular_subtype, Kids_First_Participant_ID, tumor_descriptor) %>%
+  count(cohort_hope, cg_id, cg_multiple, molecular_subtype, Kids_First_Participant_ID, tumor_descriptor) %>%
   pivot_wider(names_from = tumor_descriptor, values_from = n) %>% 
   select(cohort_hope, cg_id, molecular_subtype, 
          Kids_First_Participant_ID, Diagnosis, Progressive, 
