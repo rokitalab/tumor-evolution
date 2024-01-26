@@ -53,7 +53,8 @@
 
 - Analysis update
     - Newly-added analysis modules
-        - sample-distribution-analysis
+        - dndscv-analysis
+        - gitsample-distribution-analysis
         - tmb-vaf-longitudinal
         - update-histologies-temp
    
