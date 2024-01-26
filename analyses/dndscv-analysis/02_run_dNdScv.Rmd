@@ -34,13 +34,17 @@ suppressPackageStartupMessages({
 root_dir <- rprojroot::find_root(rprojroot::has_dir(".git"))
 analysis_dir <- file.path(root_dir, "analyses", "dndscv-analysis")
 input_dir <- file.path(analysis_dir, "output")
-data_dir <- file.path(root_dir, "data")
-files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
+data_dir <- file.path(root_dir, "data", "v2")
+#files_dir <- file.path(root_dir, "analyses", "sample-distribution-analysis", "results")
+files_dir <- file.path(analysis_dir, "input")
+
 maf_files_dir <- file.path(root_dir, "analyses", "tmb-vaf-longitudinal", "results")
 
 
 # Input files
+#pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
 pbta_file <- file.path(files_dir, "pbta.tsv") # file from add-sample-distribution module
+
 maf_file <- file.path(data_dir, "snv-consensus-plus-hotspots.maf.tsv.gz")
 refdb_file <- file.path(input_dir, "RefCDS_human_GRCh38_GencodeV39_liftover.rda")
 
