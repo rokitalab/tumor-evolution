@@ -3,13 +3,13 @@
 ## current release
 ### release-v2
 
-- Release date: 2024-01-24
-- Status:
+- Release date: 2024-01-26
+- Status: available
 - Overview of changes:
-    - This release adds the following data:
+    - All files are from OPC v13, except the following data:
         - Copy number data analysis
-        - Maf files from only tumor data
-        - Reference data
+        - Lists of genes of interest (GOI) from OncoPrint 
+
 
 - Files changed
     - files added
