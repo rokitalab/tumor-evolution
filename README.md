@@ -6,7 +6,7 @@ This repository contains a docker image and code used to conduct analyses for th
 
 1. Clone the repository
 ```
-git clone https://github.com/d3b-center/pbta-tumor-evolution.git
+git clone https://github.com/rokitalab/tumor-evolution.git
 ```
 
 2. Pull the docker container:
@@ -16,7 +16,7 @@ docker pull pgc-images.sbgenomics.com/antoniachroni/pbta-tumor-evolution:latest
 
 3. Start the docker container, from the `pbta-tumor-evolution` folder, run:
 ```
-docker run --platform=linux/amd64 --name <CONTAINER_NAME> -d -e PASSWORD=ANYTHING -p 8787:8787 -v $PWD:/home/rstudio/pbta-tumor-evolution pgc-images.sbgenomics.com/antoniachroni/pbta-tumor-evolution:latest
+docker run --platform=linux/amd64 --name <CONTAINER_NAME> -d -e PASSWORD=ANYTHING -p 8787:8787 -v $PWD:/home/rstudio/tumor-evolution pgc-images.sbgenomics.com/antoniachroni/pbta-tumor-evolution:latest
 ```
 
 4. To execute shell within the docker image, from the `pbta-tumor-evolution` folder, run:
@@ -33,7 +33,7 @@ bash download-data.sh
 
 6. Navigate to an analysis module and run the shell script:
 ```
-cd /home/rstudio/pbta-tumor-evolution/analyses/module_of_interest
+cd /home/rstudio/tumor-evolution/analyses/module_of_interest
 ```
 
 ### Below is the main directory structure listing the analyses and data files used in this repository
